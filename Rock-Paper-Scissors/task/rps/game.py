@@ -17,40 +17,33 @@ def user_details() -> int:
 
 
 def read_options() -> list:
-    # Return the list of options
     options_by_user = input()
     print("Okay, let's start")
     if options_by_user == "":
         return ['rock', 'paper', 'scissors']
     else:
-        # print(options_by_user.split(","))
         return options_by_user.split(",")
 
 
 def calculate_losing_options(user_option, option_list) -> list:
-    # Make a list of losing options from 'option_list'based on the option chosen by the user
+    # Make a list of losing options from 'option_list' based on the user_option of the user
     user_option_index: int = option_list.index(user_option)  # Always exact one occurrence
     length_options = len(option_list)
     half_options: int = len(option_list) // 2
-    # Calculate start & end of losing options - remainder to go from end to start of list
+
+    # Calculate start & end of losing options in list. Use remainder to go from end to start of list
     start_losing = (user_option_index + 1) % length_options
     end_losing = (user_option_index + half_options) % length_options   # Last losing index (included) !
-#    if (user_option_index + half_options + 1) <= length_options:
     if start_losing <= end_losing:
         # One slice without rotation over end of list
         losing_options = option_list[start_losing: end_losing + 1]
-        # print(f"Start {start_losing} End {end_losing} Losing: {losing_options}")
     else:
-        # rotate over end of list because end < start
+        # Two slices because we rotate over end of list
         losing_options = option_list[start_losing: length_options] + option_list[0: end_losing + 1]
-        # print(f"Start {start_losing} End {end_losing} Losing: {losing_options}")
     return losing_options
 
 
 def decision(user_choice, computer_choice, score, losing_options) -> int:
-    # Work with list of losers , Change conditions
-    #    winners = {"rock": {"scissors": "win", "paper": "lose"}, "scissors": {"paper": "win", "rock": "lose"},
-    #               "paper": {"rock": "win", "scissors": "lose"}}
     if user_choice == computer_choice:
         print(f"There is a draw ({user_choice})")
         return score + 50
